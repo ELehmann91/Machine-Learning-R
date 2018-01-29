@@ -1,0 +1,33 @@
+---
+title: "Structural change as a determinat for Stress"
+output:
+  html_document: default
+  pdf_document: default
+  word_document: default
+---
+
+## Perception of Stress
+
+Current survey data have shown an increase in perceived stress level among employed individual. We ask the whether individuals become more stressed over time or whether this is a result from structural change towards sectors with more stress pressure. 
+To test this assumption we use the gsoep survey where people are ask about their stress level from "1 - not stressed" to "4 - very stressed".
+For each answer we define the probability ${P}$ as a share of all answers ${i}$.
+
+$$ P(Answer=i) \equiv P_{i} \qquad  ;  ie\{1,2,3,4\}  $$
+And the probability of an answer given sector ${j}$.
+$$ P(Answer=i,Sector=j)\equiv P_{i,j} $$
+ ${N}$ denotes the whole number of workers at a point in time ${t}$ which is the sum of workers ${n}$ employed in all sectors.
+$$ N_{i,t} = \sum_{j=1}^{J}\left(n_{i,j,t} \right) $$
+Therefore the Expectation about the number of workers, having a certain stress perception, equals the sum over the expectations of all sectors.
+$$ \mathbb{E}(N_{i,t}) = \sum_{j=1}^{J}\left(\mathbb{E}(n_{i,j,t}) \right) $$
+The Expectation of the perceived stress level of one person in a specific sector equals the Number of workers in this sector times the probability of the stress level in this sector.
+$$ \mathbb{E}(n_{i,t}) = N_{j,t}*p_{i,j,t}*1+N_{j,t}*(1-p_{i,j,t})*0) $$
+We define ${S_{i,t}}$ as the share of answer ${i}$ on all answers or rather all workers.
+$$ S_{i,t}\equiv \frac{n_{i,t}}{N_t}$$
+The expectation on this share in time ${t}$ we can rewrite as sum over all sectors, of the share of workers times the probability. 
+$$ \mathbb{E}(S_{i,t})=\frac{\mathbb{E}(n_{i,t})}{N_t}=\frac{\sum_{j=1}^{J}\left(\mathbb{E}(n_{i,j,t}) \right)}{N_t}=\sum_{j=1}^{J}\left(\frac{n_{j,t}}{N_{t}}p_{i,j,t}\right)$$
+
+### Decomposition
+
+$$ \mathbb{E}(S_{i,t_1})-\mathbb{E}(S_{i,t_0})= \sum_{j=1}^{J}\left(\frac{n_{j,t_1}}{n_{t_1}}p_{i,j,t_1}\right)- \sum_{j=1}^{J}\left(\frac{n_{j,t_0}}{n_{t_0}}p_{i,j,t_0} \right) $$
+### Where
+$$\sum_{j=1}^{J}(\frac{n_{j,t_0}}{n_{t_0}}p_{i,j,t_0})=\sum_{j=1}^{J}(S_{jt_1}p_{ijt_1}-S_{jt_0}p_{ijt_0})\\ =\sum_{j=1}^{J}[(S_{jt_1}-S_{jt_0})p_{ijt_1}+S_{jt_0}(p_{ijt_1}-p_{ijt_0})+(S_{jt_1}-S_{jt_0})(p_{ijt_1}-p_{ijt_0})]$$
