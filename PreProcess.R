@@ -18,7 +18,7 @@ Mode <- function(x) {
 
 
 
-PFAD_IN = "P:/Zentral_Einheiten/ZPK/2_Projektdaten/DataBaseMarketing/Data Science/"
+PFAD_IN = ""
 PFAD_DATEN = paste0(PFAD_IN , "05_Daten/")
 PFAD_ZWERGEBNIS = paste0(PFAD_IN , "02_Ergebnisse/")
 
@@ -50,9 +50,9 @@ colnames(NAs) <- c("Name","NA","Mode%","Skew","Auspraeg","Type")
 
 NAs <- data.frame(name = NAs[,1],                                   #Variablenname
                   Na_perc = as.numeric(NAs[,2]),                    #Anteil NAs
-                  Mode_perc = as.numeric(NAs[,3]),                  #Anteil der häufigsten Ausprägung
+                  Mode_perc = as.numeric(NAs[,3]),                  #Anteil der hÃ¤ufigsten AusprÃ¤gung
                   Skew = as.numeric(NAs[,4]),                       #Schiefe
-                  Auspraegungen = as.numeric(NAs[,5]),              #Anzahl Ausprägungen
+                  Auspraegungen = as.numeric(NAs[,5]),              #Anzahl AusprÃ¤gungen
                   Type = (NAs[,6])                                  #Variablentype
 )
 
@@ -66,7 +66,7 @@ for( i in 1:length(Input)){
 }
 #########################################################################################!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-NA_MODE_99<- names(Input) %in% c(NAs$name[(NAs$Na_perc + NAs$Mode_perc)>0.80])      #100% NA / 100% Mode werden gelöscht
+NA_MODE_99<- names(Input) %in% c(NAs$name[(NAs$Na_perc + NAs$Mode_perc)>0.80])      #100% NA / 100% Mode werden gelÃ¶scht
 Input<-Input[!NA_MODE_99]
 
 Factor_vars<- names(Input) %in% c(NAs$name[NAs$Type=="factor"])                     # Alle FactorVar
@@ -86,7 +86,7 @@ NA_05<- names(Input) %in% c(NAs$name[NAs$Na_perc > 0.05 & NAs$Type!="factor"])  
 #}
 
 
-# Faktorvariablen sind NAs egal bzw werden als eigene Gruppe angesehen, Verbesserung durch Transformation nicht möglich
+# Faktorvariablen sind NAs egal bzw werden als eigene Gruppe angesehen, Verbesserung durch Transformation nicht mÃ¶glich
 ################################################################# Numeric
 Numeric <- Input[NA_05]
 NA_05<- names(Input) %in% c(NAs$name[NAs$Na_perc > 0.0001 & NAs$Type!="factor"])      # kein Faktor und mehr als 10% NA
@@ -102,7 +102,7 @@ for( i in 1:length(Input)){                                                     
 }
 
 
-# Faktorvariablen sind NAs egal bzw werden als eigene Gruppe angesehen, Verbesserung durch Transformation nicht möglich
+# Faktorvariablen sind NAs egal bzw werden als eigene Gruppe angesehen, Verbesserung durch Transformation nicht mÃ¶glich
 ################################################################# Numeric
 Numeric <- Input[NA_05]
 
