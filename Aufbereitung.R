@@ -15,7 +15,7 @@ Mode <- function(x) {
 PFAD_IN = "H:/My Documents/R/churn/"
 PFAD_DATEN = paste0(PFAD_IN , "0Daten/")
 PFAD_ZWERGEBNIS = paste0(PFAD_IN , "2ZwischenErgebnis/")
-#"P:/Zentral_Einheiten/ZPK/2_Projektdaten/DataBaseMarketing/0SAMBA/cb2lehk/alt"
+
 
 Test <- read.csv( paste0( PFAD_DATEN,"/Test.csv" ), sep=";" ,
                   colClasses=c("factor","factor","factor", rep("numeric",16),"factor","factor",
@@ -62,7 +62,7 @@ TesAP<- rpart(ANZPERS~ as.factor(Famstand)+Anz_Kind, data=Test, na.action=na.omi
 Train$ANZPERS[is.na(Train$ANZPERS)] <-  predict(TraAP,Train[is.na(Train$ANZPERS),])
 Test$ANZPERS[is.na(Test$ANZPERS)] <-  predict(TesAP,Test[is.na(Test$ANZPERS),])
 
-### Beruf löschen
+### Beruf lÃ¶schen
 Train$Beruf<-0
 Test$Beruf<-0
 table(Test$Beruf)
@@ -94,10 +94,7 @@ summary(Test$Famstand)
 ########################################################################### NA's durch Null ersetzen
 
 Var_Null = list()
-Var_Null<-c("Prod_AG_1M","Prod_AG_2M","Prod_AG_3M","Prod_AG_6M","V01_AUC","V02_AUM","V01_AUC_1",
-         "V02_AUM_1","V01_AUC_2","V02_AUM_2","V01_AUC_3","V02_AUM_3","V01_AUC_6","V02_AUM_6","Anz_Umsa","Umsa_Vol_H","Umsa_Vol_S","Anz_Umsa_1",
-         "Umsa_Vol_H_1","Umsa_Vol_S_1","Anz_Umsa_2","Umsa_Vol_H_2", "Umsa_Vol_S_2", "Anz_Umsa_3","Umsa_Vol_H_3", "Umsa_Vol_S_3", "Anz_Umsa_6","Umsa_Vol_H_6",
-         "Umsa_Vol_S_6","FilWe3","FilWe6","BerWe3","BerWe6"      )
+Var_Null<-c("Prod_AG_1M")
 
 for( i in Var_Null){
   Train[,i][is.na(Train[,i])] <- 0
