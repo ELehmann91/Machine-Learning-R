@@ -25,19 +25,19 @@ PFAD_ZWERGEBNIS = paste0(PFAD_IN , "02_Ergebnisse/")
 Input <- read_delim( paste0( PFAD_DATEN,"/CHURN_SAMPLE.csv" ), ";", escape_double = FALSE, trim_ws = TRUE)
 
 
-dropvars<- names(Input) %in% c("NPKENN","DMPKBZDT","Loeschdatum","LGPRTMON","LGPRTJHR","DLKESP","XESPARTE","id","ID","ID_F") #,"BPPGNASU")      #100% NA / 100% Mode werden gefiltert
+dropvars<- names(Input) %in% c("N","D","l","id","ID","ID_F")       #100% NA / 100% Mode werden gefiltert
 Input<-Input[!dropvars]
-Input$kuendiger <- factor(ifelse(Input$kuendiger=='1', 'Yes', 'No'))
+Input$k <- factor(ifelse(Input$k=='1', 'Yes', 'No'))
 
-Input$BERATERWECHSEL_D[is.na(Input$BERATERWECHSEL_D)]<-0
-Input$DURCH_KWK[is.na(Input$DURCH_KWK)]<-0
-Input$ANZAHL_KWK[is.na(Input$ANZAHL_KWK)]<-0
+Input$BW[is.na(Input$BW)]<-0
+Input$d[is.na(Input$d)]<-0
+Input$kw[is.na(Input$kw)]<-0
 Input$KWK_D[is.na(Input$KWK_D)]<-0
-Input$sperr_depot[is.na(Input$sperr_depot)]<-0
-Input$complaint[is.na(Input$complaint)]<-0
+Input$sd[is.na(Input$sd)]<-0
+Input$c[is.na(Input$c)]<-0
 
-table(Input$kuendiger)
-summary(Input$kuendiger)
+table(Input$k)
+summary(Input$k)
 ######################################################################################### NAs -> NA, FActor
 
 for( i in 1:length(Input)){
@@ -129,22 +129,22 @@ Numeric_TR <- data.frame(name = Numeric_TR[,1],
 for( i in 1:length(Input[NA_05])){                                        #NA's ersetzen 1. step
   Numeric_TR[i,1] <- names(Input[NA_05][i])
   Numeric_TR[i,2] <- class(Input[NA_05][[i]])
-  Numeric_TR[i,3] <- colAUC(as.numeric(Input[NA_05][[i]]),Input$kuendiger,alg=c("ROC"))
+  Numeric_TR[i,3] <- colAUC(as.numeric(Input[NA_05][[i]]),Input$k,alg=c("ROC"))
   Trans <- Input[NA_05][[i]]
   Trans[is.na(Trans)]<- 0
-  Numeric_TR[i,4] <- colAUC(as.numeric(Trans) ,Input$kuendiger,alg=c("ROC"))
+  Numeric_TR[i,4] <- colAUC(as.numeric(Trans) ,Input$k,alg=c("ROC"))
   Trans <- Input[NA_05][[i]]
   Trans[is.na(Trans)]<- mean(na.omit(Input[NA_05][[i]]))
-  Numeric_TR[i,5] <- colAUC(as.numeric(Trans) ,Input$kuendiger,alg=c("ROC"))
+  Numeric_TR[i,5] <- colAUC(as.numeric(Trans) ,Input$k,alg=c("ROC"))
   Trans <- Input[NA_05][[i]]
   Trans[is.na(Trans)]<- Mode(na.omit(Input[NA_05][[i]]))
-  Numeric_TR[i,6] <- colAUC(as.numeric(Trans) ,Input$kuendiger,alg=c("ROC"))
+  Numeric_TR[i,6] <- colAUC(as.numeric(Trans) ,Input$k,alg=c("ROC"))
   Trans <- Input[NA_05][[i]]
   Trans[is.na(Trans)]<- min(na.omit(Input[NA_05][[i]]))
-  Numeric_TR[i,7] <- colAUC(as.numeric(Trans) ,Input$kuendiger,alg=c("ROC"))
+  Numeric_TR[i,7] <- colAUC(as.numeric(Trans) ,Input$k,alg=c("ROC"))
   Trans <- Input[NA_05][[i]]
   Trans[is.na(Trans)]<- max(na.omit(Input[NA_05][[i]]))
-  Numeric_TR[i,8] <- colAUC(as.numeric(Trans) ,Input$kuendiger,alg=c("ROC"))
+  Numeric_TR[i,8] <- colAUC(as.numeric(Trans) ,Input$k,alg=c("ROC"))
 }
 ########################################################################## Hilfstabelle, beste Ersetzung
 Numeric_TR2<- matrix(, nrow = length(Numeric), ncol = 3)
@@ -219,5 +219,7 @@ save(Input,file=paste0( PFAD_DATEN, "Input30.Rda"))
 #rm(filteredDescr, NAs, trainIndex, trainTransformed, dropvars, Factor_vars, Numeric_vars,
 #   NA_29, NA_MODE_99, nzv, preProcValues, Input, i, trainTransformed_Train, trainTransformed_Test,
 #   Top30, Selected_Input)
+
+
 
 
