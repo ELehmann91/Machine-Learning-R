@@ -3,7 +3,7 @@ windows()
 
 for( j in names(Variablen )){
 
-fit <- train(y=factor(Train$ABGANG3),
+fit <- train(y=factor(Train$ABG),
              x= apply(as.matrix(Train[Variablen[[ j ]] ]),2,as.numeric)
              #  ,importance=TRUE
              , method="rpart", # "rf"
@@ -25,25 +25,25 @@ fit <- train(y=factor(Train$ABGANG3),
       #savePlot( filename= paste0(PFAD_ZWERGEBNIS,j,"_VarImp.jpg" ),type="jpeg")
       
       predicted.fit= predict(newdata=Test, fit, type = "prob")[,1] #class
-      colAUC(predicted.fit, Test[,"ABGANG3"],plot=T)
+      colAUC(predicted.fit, Test[,"ABG"],plot=T)
     #  savePlot( filename= paste0(PFAD_ZWERGEBNIS,j,"_roc.jpg" ),type="jpeg", device = dev.cur())
       
       plot(fit$finalModel)
       text(fit$finalModel,use.n=T)
 
 predicted.fit= predict(newdata=Test, fit, type = "raw")
-table(predicted.fit, Test$ABGANG3)
+table(predicted.fit, Test$ABG)
 Test$Pred<-predicted.fit
 
 }        
 
 predicted.fit= predict(newdata=Test, fit, type = "raw")
-table(predicted.fit, Test$ABGANG3)
+table(predicted.fit, Test$ABG)
 
 Variablen
 
 
-mean(Test$E_GES[Test$ABGANG3=='X'&Test$Pred=='X'])
+mean(Test$E_GES[Test$ABG=='X'&Test$Pred=='X'])
 mean(Test$E_GES[Test$Pred=='X'])
 
 
