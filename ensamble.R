@@ -8,7 +8,7 @@
 
 ######################################################################## load data
 
-PFAD_IN = "H:/My Documents/R/CC_Gold/"
+PFAD_IN = "H:/My Documents/R"
 PFAD_DATEN = paste0(PFAD_IN , "00_Daten/")
 PFAD_ZWERGEBNIS = paste0(PFAD_IN , "02_Ergebnisse/")
 
