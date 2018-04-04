@@ -12,7 +12,7 @@ Mode <- function(x) {
 }
 
 
-PFAD_IN = "H:/My Documents/R/churn/"
+PFAD_IN = "H:/My Documents/R/"
 PFAD_DATEN = paste0(PFAD_IN , "0Daten/")
 PFAD_ZWERGEBNIS = paste0(PFAD_IN , "2ZwischenErgebnis/")
 
@@ -29,38 +29,38 @@ summary(Test)
 ### TODO.
 
 
-### Letzter Kontakt NA = max
+###   NA = max
 Train$C_lKo[is.na(Train$C_lKo)] <- max(Train$C_lKo, na.rm = TRUE)+1
 Test$C_lKo[is.na(Test$C_lKo)] <- max(Test$C_lKo, na.rm = TRUE)+1
 
 
-### Alter
+### A
 
-rpartAlter<- rpart(Alter~Geschlecht+ as.factor(Famstand)+Anz_Kind+Kd_Bez_Dauer+Beruf2
+rpartA<- rpart(A~G+ as.factor(F)+AK+Kd_Bez_Dauer+B
                    , data=Train, na.action=na.omit, method="anova")
 
-Train$Alter[is.na(Train$Alter)] <-  predict(rpartAlter,Train[is.na(Train$Alter),])
-Train$Alter[Train$Alter < 14] <-  predict(rpartAlter,Train[Train$Alter <  14,])
-Train$Alter[Train$Alter > 99] <-  predict(rpartAlter,Train[Train$Alter >  99,])
+Train$A[is.na(Train$A)] <-  predict(rpartA,Train[is.na(Train$A),])
+Train$A[Train$A < 14] <-  predict(rpartA,Train[Train$A <  14,])
+Train$A[Train$A > 99] <-  predict(rpartA,Train[Train$A >  99,])
 
-rpartAlter2<- rpart(Alter~Geschlecht+ as.factor(Famstand)+Anz_Kind+Kd_Bez_Dauer+Beruf2
+rpartA2<- rpart(A~G+ as.factor(F)+AK+Kd_Bez_Dauer+B
                     , data=Test, na.action=na.omit, method="anova")
 
-Test$Alter[is.na(Test$Alter)] <-  predict(rpartAlter2,Test[is.na(Test$Alter),])
-Test$Alter[Test$Alter < 14] <-  predict(rpartAlter2,Test[Test$Alter <  14,])
-Test$Alter[Test$Alter > 99] <-  predict(rpartAlter2,Test[Test$Alter >  99,])
+Test$A[is.na(Test$A)] <-  predict(rpartA2,Test[is.na(Test$A),])
+Test$A[Test$A < 14] <-  predict(rpartA2,Test[Test$A <  14,])
+Test$A[Test$A > 99] <-  predict(rpartA2,Test[Test$A >  99,])
 
 ### Anzahl Personen
-table(Train$Alter)
+table(Train$A)
 
-Train$ANZPERS[Train$ANZPERS <0] <- NA
-Test$ANZPERS[Test$ANZPERS <0] <- NA
+Train$AP[Train$AP <0] <- NA
+Test$AP[Test$AP <0] <- NA
 
-TraAP<- rpart(ANZPERS~ as.factor(Famstand)+Anz_Kind, data=Train, na.action=na.omit, method="anova")
-TesAP<- rpart(ANZPERS~ as.factor(Famstand)+Anz_Kind, data=Test, na.action=na.omit, method="anova")
+TraAP<- rpart(AP~ as.factor(F)+AK, data=Train, na.action=na.omit, method="anova")
+TesAP<- rpart(AP~ as.factor(F)+AK, data=Test, na.action=na.omit, method="anova")
 
-Train$ANZPERS[is.na(Train$ANZPERS)] <-  predict(TraAP,Train[is.na(Train$ANZPERS),])
-Test$ANZPERS[is.na(Test$ANZPERS)] <-  predict(TesAP,Test[is.na(Test$ANZPERS),])
+Train$AP[is.na(Train$AP)] <-  predict(TraAP,Train[is.na(Train$AP),])
+Test$AP[is.na(Test$AP)] <-  predict(TesAP,Test[is.na(Test$AP),])
 
 ### Beruf löschen
 Train$Beruf<-0
@@ -68,11 +68,11 @@ Test$Beruf<-0
 table(Test$Beruf)
 
 ########################################################################## NA's durch Mode ersetzen
-Train$NAEHFIL[Train$NAEHFIL==-1]<- NA
-Test$NAEHFIL[Test$NAEHFIL==-1]<- NA
+Train$N[Train$N==-1]<- NA
+Test$N[Test$N==-1]<- NA
 
 Var_Mode = list()
-Var_Mode<-c("Beruf2","Geschlecht","NAEHFIL","Famstand")
+Var_Mode<-c("B","G","N","F")
             
 for( i in Var_Mode){
   Train[,i][is.na(Train[,i])] <- Mode(Train[,i])
@@ -86,10 +86,10 @@ for( i in Var_Mode){
   Test[,i][Test[,i] =='?'] <- Mode(Test[,i])
   Test[,i] <- Test[,i][drop=TRUE]
 }
-summary(Test$Beruf2)
-summary(Test$Geschlecht)
-summary(Test$NAEHFIL)
-summary(Test$Famstand)
+summary(Test$B)
+summary(Test$G)
+summary(Test$N)
+summary(Test$F)
 
 ########################################################################### NA's durch Null ersetzen
 
@@ -108,3 +108,5 @@ summary(Train)
 
 #Train<-na.omit(Train)
 #Test<-na.omit(Test)
+
+
